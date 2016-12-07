@@ -1,0 +1,74 @@
+<ion-view title="所有商品">
+    <!--本视图可见时，ion-nav-buttons将被导航框架载入导航栏-->
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-android-search" ng-click="openModal()"></button>
+    </ion-nav-buttons>
+    <ion-content>
+       <!--  筛选栏 -->
+        <div>
+            <div class="row item ">
+                <div class=" col  item-select  allproduct-nav">
+                    <select>
+                        <option selected>全部商品</option>
+                        <option>Green</option>
+                    </select>
+                </div>
+                <div class="col  item-select allproduct-nav">
+                    <select>
+                        <option selected>即将揭晓</option>
+                        <option>Green</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+       <!--  列表内容 -->
+        <div class="list">
+            <a class="item item-thumbnail-left" href="#">
+                <img src="/img/mac.jpg">
+                <h2>（第9期）中国石化加油卡 面值20</h2>
+                <p>价值：￥26 </p>
+                <progress class="progress" value="22" max="100"></progress>
+                <div class="row ">
+                    <div class="col">
+                        <p class="theme-color">22</p>
+                        <p>已参与</p>
+                    </div>
+                    <div class="col">
+                        <p>100</p>
+                        <p>总需人次</p>
+                    </div>
+                    <div class="col">
+                        <p class="blue-color">78</p>
+                        <p>剩余</p>
+                    </div>
+                    <div class="col">
+                        <button class="allprod-btn-add"></button>
+                    </div>
+                </div>
+            </a>
+             <a class="item item-thumbnail-left" href="#">
+                <img src="cover.jpg">
+                <h2>（第9期）中国石化加油卡 面值20</h2>
+                <p>价值：￥26 </p>
+                <progress class="progress" value="22" max="100"></progress>
+                <div class="row ">
+                    <div class="col">
+                        <p class="theme-color">22</p>
+                        <p>已参与</p>
+                    </div>
+                    <div class="col">
+                        <p>100</p>
+                        <p>总需人次</p>
+                    </div>
+                    <div class="col">
+                        <p class="blue-color">78</p>
+                        <p>剩余</p>
+                    </div>
+                    <div class="col">
+                        <button class="allprod-btn-add"></button>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </ion-content>
+</ion-view>

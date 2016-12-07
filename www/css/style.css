@@ -1,0 +1,179 @@
+/* Empty. Add your own CSS if you like */
+
+.blue {
+    color: #0c63ee;
+    border-bottom: 2px solid #0c63ee;
+}
+
+.blue-color {
+    color: #0c63ee!important;
+}
+
+.gray-color {
+    color: #666;
+}
+
+.two-level-nav {
+    cursor: pointer;
+    margin-bottom: -10px;
+}
+
+.theme-color {
+    color: #ef473a !important;
+}
+
+.active-border {
+    border-color: #ef473a;
+    border-width: 3px
+}
+
+.progress {
+    height: 5px;
+    border-radius: 2px;
+    border-left: 1px #ccc solid;
+    border-right: 1px #ccc solid;
+    border-top: 1px #aaa solid;
+    background-color: #eee;
+    margin: 2px;
+    margin-left: 0px;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #f7f7f7;
+}
+
+progress::-webkit-progress-value {
+    background-color: #ef473a;
+}
+
+
+/* 个人页 */
+
+.person-top-bg {
+    background: url(/img/bg_login_min.jpg);
+    height: 34%;
+    text-align: center;
+    /*background-repeat:no-repeat;*/
+}
+
+.person-top-bg span {
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.person-top-button {
+    width: 30%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+/* 购物车 */
+
+.cart-nums {
+    display: inline-flex;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.cart-btn {
+    padding: 0px;
+    line-height: 2px;
+    min-width: 30px;
+    min-height: 30px;
+    font-size: 2px;
+}
+
+.cart-inp {
+    margin: 1px;
+    width: 20px;
+    text-align: center;
+}
+
+.cart-price {
+    color: orange;
+    float: right;
+    padding: 3px;
+    font-size: 10px;
+}
+
+.cart-del {
+    text-align: right;
+}
+
+.cart-del button {
+    border: 0px;
+}
+
+.cart-statistics {
+    position: fixed;
+    margin-bottom: 50px;
+}
+
+.cart-statistics div {
+    text-align: left !important;
+}
+
+
+/* 最新揭晓 */
+
+.lastannounce-left-time {
+    background: #ef473a;
+    color: #fff;
+    margin: 2px;
+}
+
+
+/*所有商品*/
+
+.allproduct-nav {
+    padding: 15px;
+}
+
+.allproduct-nav select {
+    position: relative;
+    max-width: 100%;
+}
+
+.allprod-btn-add {
+    background: url("/img/cart.png");
+    background-repeat: no-repeat;
+    border: 0px;
+    min-width: 48px;
+    min-height: 48px;
+}
+
+.allprod-sub-nav {
+    margin-top: px;
+}
+
+
+/*首页*/
+
+.img-side {
+    height: 40%;
+}
+
+.img-side img {
+    width: 100%
+}
+
+.main-unit {
+    float: left
+}
+
+.last-layout img{
+    height: 50px;
+    width: auto;
+    float: right;
+}
+
+.hot-layout {
+	text-align: center;
+	padding: 5px;
+}
+.thumb-img {
+    height:80px;
+    /*width: 80px;*/
+}

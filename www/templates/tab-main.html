@@ -1,0 +1,55 @@
+<ion-view title="首页">
+    <ion-content>
+        <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()">
+        </ion-refresher>
+        <!--   图片导航 -->
+        <div class="img-side">
+            <ion-slide-box class="img-side" does-continue="true" slide-interval="2000">
+                <ion-slide ng-repeat="reitem in recommandItems">
+                    <div class="box ">
+                        <img src="{{reitem.recommondImage}}">
+                    </div>
+                </ion-slide>
+            </ion-slide-box>
+        </div>
+        <ul class="list">
+            <!-- 最新揭晓 -->
+            <a class="item item-divider">
+                最新揭晓
+            </a>
+          
+            <div class="list">
+                <a class="item  col col-50 main-unit last-layout " href="#" ng-repeat="item in lastAnounItems">
+                    <h3>{{item.prodName}}</h3> <img class="thumb-img" src="{{item.thumbnail}}">
+                    <p class="theme-color" ng-if="item.drawStatus!='ANNOUNCED'">02:49:10</p>
+                    <p ng-if="item.drawStatus=='ANNOUNCED'">获得者:{{item.winnerName}}</p>
+                </a>
+            </div>
+            <!-- 人气推荐 -->
+            <a class="item item-divider">
+                人气推荐
+            </a>
+            <div class="list">
+                <a class="item  col col-50 main-unit hot-layout" href="#" ng-repeat="hotItem in hotItems">
+                    <img src="{{hotItem.thumbnail}}" class="thumb-img">
+                    <p>价值：￥{{hotItem.price}} </p>
+                    <progress class="progress" value="{{hotItem.puredCnt}}" max="{{hotItem.totCnt}}"></progress>
+                    <div class="row ">
+                        <div class="col">
+                            <p class="theme-color">{{hotItem.puredCnt}}</p>
+                            <p>已参与</p>
+                        </div>
+                        <div class="col">
+                            <p>{{hotItem.totCnt}}</p>
+                            <p>总需人次</p>
+                        </div>
+                        <div class="col">
+                            <p class="blue-color">{{hotItem.leftCnt}}</p>
+                            <p>剩余</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </ul>
+    </ion-content>
+</ion-view>

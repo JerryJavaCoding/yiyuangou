@@ -1,0 +1,22 @@
+<ion-view title="最新揭晓">
+    <ion-content>
+        <ion-list ng-controller="lastAnounceCtrl">
+            <ion-item ng-repeat="item in items" ng-class="{'active-border': item.status==0}">
+                <div ng-if="item.status==0" class="item-thumbnail-left ">
+                    <img ng-src="{{item.img}}" class="">
+                    <h2>{{item.title}}</h2>
+                    <p>价值￥{{item.price}}</p>
+                    <div class="lastannounce-left-time">揭晓倒计时</div>
+                </div>
+                <div ng-if="item.status!=0" class="item-thumbnail-left">
+                    <img ng-src="{{item.img}}">
+                    <h2>获得者：{{item.winer}}</h2>
+                    <p>售价：￥{{item.price}}</p>
+                    <p>揭晓时间：{{item.opentime}}</p>
+                </div>
+            </ion-item>
+        </ion-list>
+        <ion-infinite-scroll on-infinite="loadMore()" distance="1%">
+        </ion-infinite-scroll>
+    </ion-content>
+</ion-view>
