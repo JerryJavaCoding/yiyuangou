@@ -1,0 +1,2 @@
+# yiyuangou
+基于angularjs的一元购客户端（jerry的毕业设计）采用Ionic和cordova的hybird app
