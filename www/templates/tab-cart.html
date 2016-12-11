@@ -1,14 +1,14 @@
 <ion-view title="购物车" ng-controller="CartCtrl">
     <ion-content>
         <ion-list  >
-            <ion-item ng-repeat="item in items" class="item-thumbnail-left">
-                <img ng-src="{{item.img}}">
-                <h2>苹果电脑mac</h2>
-                <p>剩余1300人次</p>
-                <p>参与人次</p>
+            <ion-item ng-repeat="item in cartItems" class="item-thumbnail-left">
+                <img ng-src="{{item.thumbnail}}">
+                <h2>{{item.prodName}}</h2>
+                <p>剩余{{item.leftCnt}}人次</p>
+                <p>参与人{{item.puredCnt}}次</p>
                 <div class="cart-nums">
                     <button class="ion-ios-minus-empty button button-light cart-btn" ng-click="quantityMinus()"></button>
-                    <input class="cart-inp" type="number" ng-model="quantity" />
+                    <input class="cart-inp" type="number" ng-model="quantity"  />
                     <button class="ion-ios-plus-empty button button-light cart-btn" ng-click="quantityPlus()"></button>
                 </div>
                 <div class="cart-price"> {{quantity*buyUnit}}元</div>

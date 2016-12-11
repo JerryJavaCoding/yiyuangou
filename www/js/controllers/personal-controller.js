@@ -2,16 +2,34 @@
  * Created by zhoupan on 2015/9/15.
  */
 angular.module('personal-controller', [])
-    .controller('PersonalCtrl', ['personService', '$scope', '$ionicPopup', '$state', function(personService, $scope, $ionicPopup, $state) {
-        $scope.myInfo = 'null';
+    .controller('PersonalCtrl', ['loginService', 'locals', 'personService', '$scope', '$ionicPopup', '$state', function(loginService, locals, personService, $scope, $ionicPopup, $state) {
+        $scope.isPersistLogined = locals.get("isPersistLogined");
+        $scope.myInfo = {};
+
+
+        //自动获取个人资料
+        personService.home().success(function(data) {
+            if (data.header.code == '000') {
+                $scope.myInfo = data.body.customerDetails;
+                $scope.isPersistLogined = true;
+                locals.setObject("myInfo", $scope.myInfo);
+                locals.set("isPersistLogined", true);
+            }
+        });
         $scope.login = function() {
             $state.go('login');
+        };
+        //退出登陆
+        $scope.logout = function() {
+            loginService.doLogout().success(function(data) {
+                if (data.header.code == '000') {
+                    $scope.myInfo = {};
+                    $scope.isPersistLogined = false;
+                    locals.setObject("myInfo", '');
+                    locals.set("isPersistLogined", false);
+                }
+            });
         }
-
-        personService.home().success(function(data) {
-            $scope.myInfo = data.body.customerDetails;
-
-        });
         $scope.isOne = false;
         $scope.isTwo = false;
         $scope.show = function(subModalIndex) {
@@ -48,5 +66,37 @@ angular.module('personal-controller', [])
         //         });
         // };
 
+    }])
+    //购买记录
+    .controller('purchaseCtrl', ['$scope', '$window', 'personService', function($scope, $window, personService) {
+        $scope.myTitle = '购买记录';
+        $scope.items = {};
+        $scope.goBack = function() {
+            $window.history.go(-1);
+        }
+        personService.purchaseHistory().success(function(data) {
+            $scope.items = data.body.purchaseDetailsList;
 
-    }]);
+        });
+    }])
+    .controller('winRecordCtrl', ['$scope', '$window', 'personService', function($scope, $window, personService) {
+       
+        $scope.items = {};
+        $scope.goBack = function() {
+            $window.history.go(-1);
+        }
+        personService.winHistory().success(function(data) {
+            $scope.items = data.body.winPrizeList;
+
+        });
+    }])
+    .controller('accountDetailCtrl', ['$scope','$window','personService' ,function($scope,$window,personService){
+        $scope.balanceItems={};
+        $scope.goBack = function() {
+            $window.history.go(-1);
+        }
+        personService.accountDetail().success(function(data){
+           $scope.balanceItems= data.body.balanceHistoryList;
+        });
+
+    }])

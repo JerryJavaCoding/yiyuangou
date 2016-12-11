@@ -5,8 +5,14 @@ angular.module('lqApp.services', [])
     .factory('drawcycleService', ['$http', function($http) {
         return {
             gethotItems: function(requestParams) {
-                var url = config.basePath + '/drawcycle';
-                return $http.get(url, requestParams);
+                return $http({
+                    method: 'GET',
+                    url: config.basePath + '/drawcycle',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    params: requestParams
+                })
             },
             getlastItems: function(requestParams) {
                 var url = config.basePath + '/latestannounce';
@@ -14,6 +20,10 @@ angular.module('lqApp.services', [])
             },
             getRecommendItems: function() {
                 var url = config.basePath + '/commons/recommended?recommendType=FRONT_PAGE';
+                return $http.get(url);
+            },
+            getCategoryList: function() {
+                var url = config.basePath + '/category/list';
                 return $http.get(url);
             }
 
@@ -37,6 +47,10 @@ angular.module('lqApp.services', [])
                         'remember-me': 'Yes'
                     }
                 });
+            },
+            doLogout: function() {
+                var url = config.basePath + '/customer/logout';
+                return $http.get(url);
             }
 
         };
@@ -46,59 +60,96 @@ angular.module('lqApp.services', [])
             home: function() {
                 var url = config.basePath + '/customer/home';
                 return $http.get(url);
+            },
+            'purchaseHistory': function() {
+                var url = config.basePath + '/customer/purchase-history?page=1&pageSize=10';
+                return $http.get(url);
+            },
+            winHistory: function() {
+                var url = config.basePath + '/customer/winprize?page=1&pageSize=10';
+                return $http.get(url);
+            },
+            accountDetail: function() {
+                var url = config.basePath + '/customer/balance-history?page=1&pageSize=10&balanceSimbol=POSITIVE';
+                return $http.get(url);
             }
         };
     }])
 
+//本地化存储数据  
+.factory('locals', ['$window', function($window) {
+        return {
+            //存储单个属性  
+            set: function(key, value) {
+                $window.localStorage[key] = value;
+            },
+            //读取单个属性  
+            get: function(key, defaultValue) {
+                return $window.localStorage[key] || defaultValue;
+            },
+            //存储对象，以JSON格式存储  
+            setObject: function(key, value) {
+                $window.localStorage[key] = JSON.stringify(value);
+            },
+            //读取对象  
+            getObject: function(key) {
+                return JSON.parse($window.localStorage[key] || '{}');
+            },
+            //初始化为数组对象
+            getArray: function(key) {
+                return JSON.parse($window.localStorage[key] || '[]');
+            }
 
-.factory('$data', function($http) {
-    return {
-
-        findAll: function(tableName, requestParams) {
-            var url = config.basePath + tableName + "/findAll.do?callback=JSON_CALLBACK";
-            return $http.jsonp(url, { params: requestParams });
-
-        },
-        findAllByPage: function(tableName, requestParams) {
-            var url = config.basePath + tableName + "/findAllByPage.do?callback=JSON_CALLBACK";
-            return $http.jsonp(url, { params: requestParams });
-
-        },
-        login: function(tableName, requestParams) {
-            var url = config.basePath + tableName + "/login.do?phoneNumber=" + requestParams.phoneNumber + "&password=" + requestParams.password + "&callback=JSON_CALLBACK";
-            return $http.jsonp(url);
-        },
-        register: function(tableName, requestParams) {
-            var url = config.basePath + tableName + "/register.do?callback=JSON_CALLBACK";
-            return $http.jsonp(url, { params: requestParams });
-        },
-        modifyPassword: function(tableName, requestParams) {
-            var url = config.basePath + tableName + "/modifyPassword.do?callback=JSON_CALLBACK";
-            return $http.jsonp(url, { params: requestParams });
-        },
-        getCheckCode: function(tableName) {
-            var url = config.basePath + tableName + "/getCheckCode.do?callback=JSON_CALLBACK";
-            return $http.jsonp(url);
-        },
-
-        findById: function(tableName, id) {
-            var url = config.basePath + tableName + "/findById.do?id=" + id + "&callback=JSON_CALLBACK";
-            return $http.jsonp(url);
-
-        },
-        findByConditions: function(tableName, requestParams) {
-            var url = config.basePath + tableName + "/findByConditions.do?callback=JSON_CALLBACK";
-            return $http.jsonp(url, { params: requestParams });
-        },
-
-        remove: function(twzx) {
-            twzxs.splice(twzxs.indexOf(twzx), 1);
-        },
-
-        add: function(tableName, postData) {
-            var url = config.basePath + tableName + "/add.do?callback=JSON_CALLBACK";
-            return $http.jsonp(url, { params: postData });
         }
-    }
+    }])
+    .factory('$data', function($http) {
+        return {
 
-});
+            findAll: function(tableName, requestParams) {
+                var url = config.basePath + tableName + "/findAll.do?callback=JSON_CALLBACK";
+                return $http.jsonp(url, { params: requestParams });
+
+            },
+            findAllByPage: function(tableName, requestParams) {
+                var url = config.basePath + tableName + "/findAllByPage.do?callback=JSON_CALLBACK";
+                return $http.jsonp(url, { params: requestParams });
+
+            },
+            login: function(tableName, requestParams) {
+                var url = config.basePath + tableName + "/login.do?phoneNumber=" + requestParams.phoneNumber + "&password=" + requestParams.password + "&callback=JSON_CALLBACK";
+                return $http.jsonp(url);
+            },
+            register: function(tableName, requestParams) {
+                var url = config.basePath + tableName + "/register.do?callback=JSON_CALLBACK";
+                return $http.jsonp(url, { params: requestParams });
+            },
+            modifyPassword: function(tableName, requestParams) {
+                var url = config.basePath + tableName + "/modifyPassword.do?callback=JSON_CALLBACK";
+                return $http.jsonp(url, { params: requestParams });
+            },
+            getCheckCode: function(tableName) {
+                var url = config.basePath + tableName + "/getCheckCode.do?callback=JSON_CALLBACK";
+                return $http.jsonp(url);
+            },
+
+            findById: function(tableName, id) {
+                var url = config.basePath + tableName + "/findById.do?id=" + id + "&callback=JSON_CALLBACK";
+                return $http.jsonp(url);
+
+            },
+            findByConditions: function(tableName, requestParams) {
+                var url = config.basePath + tableName + "/findByConditions.do?callback=JSON_CALLBACK";
+                return $http.jsonp(url, { params: requestParams });
+            },
+
+            remove: function(twzx) {
+                twzxs.splice(twzxs.indexOf(twzx), 1);
+            },
+
+            add: function(tableName, postData) {
+                var url = config.basePath + tableName + "/add.do?callback=JSON_CALLBACK";
+                return $http.jsonp(url, { params: postData });
+            }
+        }
+
+    });

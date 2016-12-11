@@ -2,16 +2,11 @@
  * Created by zhoupan on 2015/9/15.
  */
 angular.module('cart-controller', [])
-    .controller('CartCtrl', ['$scope', '$data', '$ionicPopup', '$ionicListDelegate', function($scope, $data, $ionicPopup, $ionicListDelegate) {
+    .controller('CartCtrl', ['$scope', '$data', 'locals', '$ionicPopup', '$ionicListDelegate', function($scope, $data, locals, $ionicPopup, $ionicListDelegate) {
         var leftQuantity = 10; //剩余人次
         $scope.quantity = 0; //购买的数量
         $scope.buyUnit = 1;
-        $scope.items = [
-            { id: 0 ,img:'/img/mac.jpg'},
-            { id: 1 },
-
-        ];
-       
+        $scope.cartItems = locals.getObject("cartItems");
         $scope.quantityPlus = function() {
             if ($scope.quantity < leftQuantity)
                 $scope.quantity++;
@@ -32,13 +27,13 @@ angular.module('cart-controller', [])
                     $scope.items.splice(0, 1);
                     console.log($scope.items);
                     console.log('删除成功！');
-                    
+
                 } else {
                     console.log('取消删除！');
                 }
             });
         }
-        
+
 
 
     }])

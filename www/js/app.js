@@ -1,4 +1,4 @@
- angular.module('lqApp', ['ionic', 'lqApp.controllers', 'lqApp.services', 'lqApp.directives', ])
+ angular.module('lqApp', ['ionic', 'lqApp.controllers', 'lqApp.services', 'lqApp.directives', 'lqApp.filters'])
 
  .run(function($ionicPlatform) {
      $ionicPlatform.ready(function() {
@@ -119,8 +119,10 @@
      //购物车模块
      .state('tab.cart', {
          url: '/cart',
+         cache:'false',
          views: {
              'tab-cart': {
+
                  templateUrl: 'templates/tab-cart.html',
                  controller: 'CartCtrl'
              }
@@ -128,28 +130,32 @@
 
      })
 
-     // //资产估算-详情（评估）模块
-     // .state('tab.zcgs-detail',{
-     //     url:'/zcgs/:id',
-     //     views:{
-     //         'tab-zcgs':{
-     //             templateUrl:'templates/zcgs-detail.html',
-     //             controller:'ZcgsDetailCtrl'
-     //         }
-     //     }
-
-     // })
-
      //我模块
      .state('tab.personal', {
-         url: '/personal',
-         cache:'false',
-         views: {
-             'tab-personal': {
-                 templateUrl: 'templates/tab-personal.html',
-                 controller: 'PersonalCtrl'
+             url: '/personal',
+             cache: 'false',
+             views: {
+                 'tab-personal': {
+                     templateUrl: 'templates/tab-personal.html',
+                     controller: 'PersonalCtrl'
+                 }
              }
-         }
 
-     })
+         }).state('purchaseRecord', {
+             url: '/purchaseRecord',
+             templateUrl: 'templates/purchaseRecord.html',
+             controller: 'purchaseCtrl'
+
+         })
+         .state('winRecord', {
+             url: '/winRecord',
+             templateUrl: 'templates/winRecord.html',
+             controller: 'winRecordCtrl'
+         })
+         .state("accountDetail", {
+             url: '/accountDetail',
+             templateUrl: "templates/account-detail.html",
+             controller: 'accountDetailCtrl'
+         })
+
  });

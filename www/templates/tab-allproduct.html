@@ -1,74 +1,60 @@
 <ion-view title="所有商品">
     <!--本视图可见时，ion-nav-buttons将被导航框架载入导航栏-->
-    <ion-nav-buttons side="right">
-        <button class="button button-icon icon ion-android-search" ng-click="openModal()"></button>
-    </ion-nav-buttons>
+   
     <ion-content>
-       <!--  筛选栏 -->
+        <!--  筛选栏 -->
         <div>
             <div class="row item ">
-                <div class=" col  item-select  allproduct-nav">
-                    <select>
-                        <option selected>全部商品</option>
-                        <option>Green</option>
+                <div class=" col  item-select  allproduct-nav" ">      
+                    <select ng-change="changeCat(selectedCat) " ng-model="selectedCat ">
+                        <option ng-repeat="item in categoryList " value="{{item.value}} " ng-selected="selectedCat.value=={{item.value}} ">{{item.label}}</option>
                     </select>
+                   
                 </div>
-                <div class="col  item-select allproduct-nav">
-                    <select>
-                        <option selected>即将揭晓</option>
-                        <option>Green</option>
+                <div class="col item-select allproduct-nav ">
+                    <select ng-model="searchBy " ng-change="changeSearchBy(searchBy) ">
+                        <option value='progress'>即将揭晓</option>
+                        <option value='hot'>人气</option>
+                        <option value='new'>最新</option>
                     </select>
                 </div>
             </div>
         </div>
-       <!--  列表内容 -->
-        <div class="list">
-            <a class="item item-thumbnail-left" href="#">
-                <img src="/img/mac.jpg">
-                <h2>（第9期）中国石化加油卡 面值20</h2>
-                <p>价值：￥26 </p>
-                <progress class="progress" value="22" max="100"></progress>
+        <ion-refresher pulling-text="下拉刷新... "  on-refresh="doRefresh() ">
+        </ion-refresher>
+        <!--  列表内容 -->
+        <div class="list ">
+            <a class="item item-thumbnail-left " href="# " ng-repeat="item in products ">
+                <img width="80 " ng-src="{{item.thumbnail}} "/>
+                <h2>（第{{item.cycle}}期）{{item.prodName}}</h2>
+                <p>价值：￥{{item.price}} </p>
+                <progress class="progress " value="{{item.puredCnt}} " max="{{item.totCnt}} "></progress>
                 <div class="row ">
-                    <div class="col">
-                        <p class="theme-color">22</p>
+                    <div class="col ">
+                        <p class="theme-color ">{{item.puredCnt}}</p>
                         <p>已参与</p>
                     </div>
-                    <div class="col">
-                        <p>100</p>
+                    <div class="col ">
+                        <p>{{item.totCnt}}</p>
                         <p>总需人次</p>
                     </div>
-                    <div class="col">
-                        <p class="blue-color">78</p>
+                    <div class="col ">
+                        <p class="blue-color ">{{item.leftCnt}}</p>
                         <p>剩余</p>
                     </div>
-                    <div class="col">
-                        <button class="allprod-btn-add"></button>
-                    </div>
-                </div>
-            </a>
-             <a class="item item-thumbnail-left" href="#">
-                <img src="cover.jpg">
-                <h2>（第9期）中国石化加油卡 面值20</h2>
-                <p>价值：￥26 </p>
-                <progress class="progress" value="22" max="100"></progress>
-                <div class="row ">
-                    <div class="col">
-                        <p class="theme-color">22</p>
-                        <p>已参与</p>
-                    </div>
-                    <div class="col">
-                        <p>100</p>
-                        <p>总需人次</p>
-                    </div>
-                    <div class="col">
-                        <p class="blue-color">78</p>
-                        <p>剩余</p>
-                    </div>
-                    <div class="col">
-                        <button class="allprod-btn-add"></button>
+                    <div class="col ">
+                        <button class="allprod-btn-add " ng-click="addToCart({{item}})"></button>
                     </div>
                 </div>
             </a>
         </div>
+ <ion-infinite-scroll
+    on-infinite="loadMore()"
+    distance="1%"
+    ng-if="moreDataCanBeLoaded()">
+  </ion-infinite-scroll>
+</ion-infinite-scroll>
+
+  </ion-infinite-scroll>
     </ion-content>
 </ion-view>
