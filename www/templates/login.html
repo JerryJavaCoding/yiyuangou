@@ -1,11 +1,10 @@
-<ion-view view-title="会员登录" >
-  
+<ion-view view-title="会员登录">
     <ion-nav-buttons side="left">
         <button class=" button button-icon icon ion-chevron-left " ng-click="goBack()"></button>
     </ion-nav-buttons>
     <ion-content ng-controller="LoginCtrl">
         <div>
-            <form name="myForm" novalidate>
+            <form name="myForm" >
                 <div class="list list-inset">
                     <label class="item item-input" style="padding-right: 10px">
                         <i class="icon ion-android-call"></i>
@@ -19,6 +18,8 @@
                         <i class="icon ion-close-circled assertive" ng-show="myForm.password.$dirty && myForm.password.$invalid"></i>
                         <i class="icon ion-checkmark-circled balanced" ng-show="myForm.password.$dirty && myForm.password.$valid"></i>
                     </label>
+                    <div style="margin:10px">
+                        <input type="checkbox" name="rememberMe" ng-model="formUser.rememberMe"/><label>自动登录</label></div>
                     <input class="button  button-block button-small button-assertive" type="submit" ng-click="doLogin()" value="登录" />
                     <div class="row">
                         <div class="col button button-clear button-assertive" ui-sref="register">注册会员{{name}}</div>

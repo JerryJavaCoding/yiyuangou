@@ -4,7 +4,7 @@
 angular.module('login-controller', [])
 
 .controller('LoginCtrl', ['$scope', '$window', '$ionicPopup', '$timeout', '$state', 'loginService', function($scope, $window, $ionicPopup, $timeout, $state, loginService) {
-    $scope.formUser = {};
+    $scope.formUser = { rememberMe: true };
     $scope.successPopup = {};
     $scope.goBack = function() {
         $window.history.go(-1);

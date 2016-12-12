@@ -5,26 +5,37 @@ angular.module('main-controller', [])
     .controller('MainCtrl', ['drawcycleService', '$ionicSlideBoxDelegate', '$scope', '$timeout', '$ionicLoading', '$data', '$http', function(drawcycleService, $ionicSlideBoxDelegate, $scope, $timeout, $ionicLoading, $data, $http) {
         $scope.recommandItems = [];
         $scope.hotItems = [];
-        $scope.lastAnounItems = [];
-        //首页轮播推荐商品
-        drawcycleService.getRecommendItems().success(function(resp) {
-            $scope.recommandItems = resp.body.recommandList;
-            $ionicSlideBoxDelegate.update();
-        });
         //最新揭晓
-        var lastItemRequestParam = { calculatingSize: 50, announceSize: 100, viewMode: 'NORMAL' };
-        drawcycleService.getlastItems(lastItemRequestParam).success(function(resp) {
-            $scope.lastAnounItems = resp.body.drawCycleDetailsList
-        });
+        var lastItemRequestParam = {
+            page: 1,
+            pageSize: 4
+        };
         //人气商品
         var hotItemRequestParam = { searchBy: 'progress', categoryId: 1, page: 1, pageSize: 6, drawStatus: 'OPEN' };
-        drawcycleService.gethotItems(hotItemRequestParam).success(function(resp) {
-            $scope.hotItems = resp.body.drawCycleDetailsList;
-        });
+        //首页轮播推荐商品
+        function getData() {
+            drawcycleService.getRecommendItems().success(function(resp) {
+                $scope.recommandItems = resp.body.recommandList;
+                $ionicSlideBoxDelegate.update();
+            });
+
+            drawcycleService.getlastItems(lastItemRequestParam).success(function(resp) {
+                $scope.lastAnounItems = resp.body.drawCycleDetailsList
+            });
+
+            return drawcycleService.gethotItems(hotItemRequestParam).success(function(resp) {
+                $scope.hotItems = resp.body.drawCycleDetailsList;
+            });
+        };
+        getData();
 
 
+        $scope.doRefresh = function() {
+            getData().finally(function() {
+                $scope.$broadcast('scroll.refreshComplete');
+            });
 
-
+        }
 
         /* $scope.isHaveMoreData = true;
 

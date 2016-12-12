@@ -3,7 +3,7 @@
  */
 config = {
       basePath: 'http://112.74.166.220:8080',
-   //basePath:'http://localhost:8080',
+  // basePath:'http://localhost:8080',
     pagination: {
         pageSize: 10,
         currentPage: 1

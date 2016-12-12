@@ -1,22 +1,28 @@
 <ion-view title="最新揭晓">
     <ion-content>
-        <ion-list ng-controller="lastAnounceCtrl">
-            <ion-item ng-repeat="item in items" ng-class="{'active-border': item.status==0}">
-                <div ng-if="item.status==0" class="item-thumbnail-left ">
-                    <img ng-src="{{item.img}}" class="">
-                    <h2>{{item.title}}</h2>
-                    <p>价值￥{{item.price}}</p>
-                    <div class="lastannounce-left-time">揭晓倒计时</div>
+        <ion-refresher pulling-text="下拉刷新... " on-refresh="doRefresh() ">
+        </ion-refresher>
+        <ion-list>
+            <!-- 倒计时的边框加粗 -->
+            <ion-item ng-repeat="item in lastItems" ng-class="{true:'countdown-border',false:''}[item.drawStatus=='COUNTDOWN']">
+                <div ng-if="item.drawStatus=='COUNTDOWN'" class="item-thumbnail-left  ">
+                    <img ng-src="{{item.thumbnail}}" class="left-min-img">
+                    <a href="#/prodDetail/{{item.drawCycleID}}">
+                        <h2>{{item.prodName}}</h2>
+                        <p>价值￥{{item.price}}</p>
+                        <div class="lastannounce-left-time">{{item.leaveTime}}</div>
+                    </a>
                 </div>
-                <div ng-if="item.status!=0" class="item-thumbnail-left">
-                    <img ng-src="{{item.img}}">
-                    <h2>获得者：{{item.winer}}</h2>
+                <div ng-if="item.drawStatus=='ANNOUNCED'" class="item-thumbnail-left">
+                    <img ng-src="{{item.thumbnail}}" class="left-min-img">
+                     <a href="#/prodDetail/{{item.drawCycleID}}">
+                    <h2>获得者：{{item.winnerName}}</h2>
                     <p>售价：￥{{item.price}}</p>
-                    <p>揭晓时间：{{item.opentime}}</p>
+                    <p>揭晓时间：{{item.announceDate}}</p>
+                    </a>
                 </div>
             </ion-item>
         </ion-list>
-        <ion-infinite-scroll on-infinite="loadMore()" distance="1%">
-        </ion-infinite-scroll>
+        <!--  <ion-infinite-scroll on-infinite="loadMore() " distance="1% " ng-if="moreDataCanBeLoaded() "> -->
     </ion-content>
 </ion-view>

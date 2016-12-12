@@ -4,7 +4,7 @@
 angular.module('personal-controller', [])
     .controller('PersonalCtrl', ['loginService', 'locals', 'personService', '$scope', '$ionicPopup', '$state', function(loginService, locals, personService, $scope, $ionicPopup, $state) {
         $scope.isPersistLogined = locals.get("isPersistLogined");
-        $scope.myInfo = {};
+        $scope.myInfo = locals.get("myInfo");
 
 
         //自动获取个人资料
@@ -14,6 +14,7 @@ angular.module('personal-controller', [])
                 $scope.isPersistLogined = true;
                 locals.setObject("myInfo", $scope.myInfo);
                 locals.set("isPersistLogined", true);
+                
             }
         });
         $scope.login = function() {

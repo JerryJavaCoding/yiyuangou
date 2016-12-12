@@ -1,26 +1,33 @@
 <ion-view title="购物车" ng-controller="CartCtrl">
     <ion-content>
-        <ion-list  >
+        <ion-list>
             <ion-item ng-repeat="item in cartItems" class="item-thumbnail-left">
-                <img ng-src="{{item.thumbnail}}">
+                <img ng-src="{{item.thumbnail}}" class="left-min-img">
+                <a href="#/prodDetail/{{item.drawCycleID}}">
                 <h2>{{item.prodName}}</h2>
                 <p>剩余{{item.leftCnt}}人次</p>
-                <p>参与人{{item.puredCnt}}次</p>
+                <p>参与人{{item.puredCnt}}次</p></a>
                 <div class="cart-nums">
-                    <button class="ion-ios-minus-empty button button-light cart-btn" ng-click="quantityMinus()"></button>
-                    <input class="cart-inp" type="number" ng-model="quantity"  />
-                    <button class="ion-ios-plus-empty button button-light cart-btn" ng-click="quantityPlus()"></button>
+                    <button class="ion-ios-minus-empty button button-light cart-btn" ng-click="quantityMinus(item)"></button>
+                    <input class="cart-inp" type="number" ng-model="item.myBuyCnt" ng-change="inputBuyCnt(item)"/>
+                    <button class="ion-ios-plus-empty button button-light cart-btn" ng-click="quantityPlus(item)"></button>
                 </div>
-                <div class="cart-price"> {{quantity*buyUnit}}元</div>
+                <div class="cart-price"> {{item.myBuyCnt*item.buyUnit}}元</div>
                 <div class="cart-del">
-                    <button class="button ion-ios-trash-outline " ng-click="delCart()"></button>
+                    <button class="button ion-ios-trash-outline " ng-click="delCart({{item}})"></button>
                 </div>
             </ion-item>
         </ion-list>
-    </ion-content>
-    <div class="bar bar-footer bar-stable cart-statistics">
-        <div class="title ">共<span class="theme-color">{{items.length}}</span>件商品，合计<span class="theme-color">2</span>元
+        <!-- 购物车没有东西的时候展示 -->
+        <div class="noCartItem" ng-if="cartItems.length==0">
+            <img src="img/shopping_cart.png"  width="100px" />           
+             <h4>你的购物车空空如也</h4>
+            <a href="#/tab/allproduct " class="button button-assertive ">马上去云购</a>
         </div>
-        <button class="button button-assertive">去结算</button>
+    </ion-content>
+    <div class="bar bar-footer bar-stable cart-statistics " ng-if="cartItems.length!=0 ">
+        <div class="title ">共<span class="theme-color ">{{cartItems.length}}</span>件商品，合计<span class="theme-color ">{{totPri}}</span>元
+        </div>
+        <button class="button button-assertive ">去结算</button>
     </div>
 </ion-view>

@@ -11,10 +11,11 @@
     </div>
     <div style="margin-top: 40px" ng-show="isPersistLogined">
         <a class="item item-thumbnail-left" href="#">
-            <img ng-src="/img/me.png">
+            <img ng-src="img/me.png">
             <h2>{{myInfo.nickname}}</h2>
             <p>欢迎来到一元云购</p>
-            <button ng-click="logout()">退出</button>
+            <button class="button button-light" ng-click="logout()">退出</button>
+            
         </a>
         <div class="row">
             <div class="col">福分：{{myInfo.point}}</div>

@@ -1,83 +1,74 @@
 /**
  * Created by zhoupan on 2015/9/15.
  */
-angular.module('lastAnnounce-controller',[])
-    .controller('lastAnounceCtrl',['$scope',  '$ionicModal','$timeout','$ionicLoading',  '$data', function($scope, $ionicModal,$timeout,$ionicLoading,  $data){
-        $scope.items = [{img:'/img/mac.jpg',title:'第一期苹果电脑mac','price':10000,status:0},{'winer':'王尼玛','price':10000,'opentime':'三分钟前',status:1}];
-        $scope.listCanSwipe=true;
-        var pagination = $scope.pagination = {
-            pageSize:10,
-            currentPage:1
-        };//获取分页信息
-
-        var pagination1 = $scope.pagination1 = {
-            pageSize:10,
-            currentPage:0
+angular.module('lastAnnounce-controller', [])
+    .controller('lastAnounceCtrl', ['$scope', '$window', 'drawcycleService', '$timeout', '$interval', '$ionicLoading', '$data', function($scope, $window, drawcycleService, $timeout, $interval, $ionicLoading, $data) {
+        $scope.lastItems = [];
+        var requestParams = {
+            page: 1,
+            pageSize: 20
         };
 
+        var totalPage = 2;
 
-        $scope.isHaveMoreData = true;//是否还有更多数据，true:显示加载更多图标，后台获取数据；false:隐藏加载等多图标，不再像后台请求数据
+        function getLastItems() {
+            return drawcycleService.getlastItems(requestParams).success(function(data) {
+                $scope.lastItems = data.body.drawCycleDetailsList;
+                totalPage = data.body.totalPage;
+                for (i = 0; i < $scope.lastItems.length; i++) {
+                    if ($scope.lastItems[i].drawStatus == 'COUNTDOWN')
+                        cutTimeBySecond($scope.lastItems[i]);
+                }
+            });
+        };
+         getLastItems();
+        $scope.doRefresh = function() {
+            requestParams.page = 1;
+            getLastItems().finally(function() {
+                $scope.$broadcast('scroll.refreshComplete');
+            });
+        };
 
-        $scope.isFindByConditions = false;//标记当前用户是否为组合条件查询页面,true:加载更多时调用根据多条件查询数据；false：加载更多时不需要带条件进行查询
+        //倒计时
+        function GetRTime(item) {
 
-        // //加载更多
-        // $scope.loadMore = function(){
-        //     if(!! $scope.isFindByConditions){
-        //         $scope.findByConditions();
-        //     }else{
-        //         $scope.findAll();
-        //     }
-
-        // };
-
-
-        // //无条件分页查询
-        // $scope.findAll = function(){
-        //     $scope.isFindByConditions = false;
-        //     $data.findAll("gqpt",{pageSize:$scope.pagination.pageSize,currentPage:$scope.pagination.currentPage++})
-        //         .success(function(data){
-        //             if(data == null){
-        //                 $scope.isHaveMoreData = false;
-        //                 return;
-        //             }
-
-        //             $scope.items = $scope.items.concat(data);
-
-        //         })
-        //         .finally(function(){
-        //             $timeout(function(){
-        //                 $scope.$broadcast("scroll.infiniteScrollComplete");
-        //             },2000);
-        //         });
-        // };
-
-        // //组合条件分页查询
-        // $scope.queryConditions = {releaseTime:"",publisher:"",type:"",pageSize:pagination1.pageSize,currentPage:pagination1.currentPage};//
-        // $scope.findByConditions = function() {
-        //     $scope.queryConditions.currentPage++;
-        //     console.log( $scope.queryConditions);
-
-        //     $scope.isFindByConditions = true;
-        //     $data.findByConditions("gqpt",$scope.queryConditions)
-        //         .success(function(data){
-        //             console.log(data);
-        //             $scope.closeModal();
-        //             if(data == null){
-        //                 $scope.isHaveMoreData = false;
-        //                 return;
-        //             }
-
-        //             $scope.items = data;
-
-        //         })
-        //         .finally(function(){
-        //             $timeout(function(){
-        //                 $scope.$broadcast("scroll.infiniteScrollComplete");
-        //             },2000);
-        //         });
-        // };
+            var EndTime = new Date(item.drawDate);
+            var NowTime = new Date();
+            var t = EndTime.getTime() - NowTime.getTime();
+            // var d = 0;
+            // var h = 0;
+            var m = 0;
+            var s = 0;
+            if (t > 0) {
+                // d = Math.floor(t / 1000 / 60 / 60 / 24);
+                // h = Math.floor(t / 1000 / 60 / 60 % 24);
+                m = Math.floor(t / 1000 / 60 % 60);
+                s = Math.floor(t / 1000 % 60);
+                item.leaveTime = '揭晓倒计时:' + m + ":" + s;
+            } else {
+                item.leaveTime = '正在计算中...';
+                $timeout(function() {
+                    reloadRoute();
+                }, 2000);
+                item.leaveTime = '';
+            }
 
 
+        }
+
+
+        //每秒减一
+        function cutTimeBySecond(item) {
+            $interval(function() {
+                GetRTime(item);
+            }, 1000);
+        };
+
+        function reloadRoute() {
+            $window.location.reload();
+        };
+
+       
 
         // $scope.$on("stateChangeSuccess",function(){
         //     $scope.loadMore();
@@ -121,6 +112,3 @@ angular.module('lastAnnounce-controller',[])
         // });
 
     }])
-
-    
-

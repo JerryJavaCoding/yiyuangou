@@ -2,7 +2,7 @@
  * Created by zhoupan on 2015/9/15.
  */
 angular.module('allproduct-controller', [])
-    .controller('allproductCtrl', ['$scope', 'locals', '$ionicActionSheet', 'drawcycleService', '$ionicModal', '$timeout', '$data', function($scope, locals, $ionicActionSheet, drawcycleService, $ionicModal, $timeout, $data) {
+    .controller('allproductCtrl', ['$scope',  'locals', '$ionicActionSheet', 'drawcycleService', '$ionicModal', '$timeout', '$data', function($scope, locals, $ionicActionSheet, drawcycleService, $ionicModal, $timeout, $data) {
         $scope.selectedCat = { label: "全部商品", 'value': '1' };
         $scope.products = [];
         $scope.categoryList = [];
@@ -35,7 +35,7 @@ angular.module('allproduct-controller', [])
         var totalPage = 2;
         //初始化和刷新商品数据的方法
         function refresh() {
-            console.log(requestParams.page);
+            // console.log(requestParams.page);
             return drawcycleService.gethotItems(requestParams).success(function(data) {
                 $scope.products = data.body.drawCycleDetailsList;
                 totalPage = data.body.totalPage;
@@ -74,6 +74,7 @@ angular.module('allproduct-controller', [])
         };
         //添加到购物车，存到本地变量
         $scope.addToCart = function(drawCycle) {
+            drawCycle.myBuyCnt = 0;
             var cartItems = locals.getArray("cartItems");
             for (var i = 0; i < cartItems.length; i++) {
                 if (cartItems[i].drawCycleID == drawCycle.drawCycleID) {
@@ -82,8 +83,18 @@ angular.module('allproduct-controller', [])
                 }
             }
             cartItems.push(drawCycle);
-            locals.setObject("cartItems", cartItems);        
+            debugger;
+            locals.setObject("cartItems", cartItems);
+            $cordovaDialogs.alert('message', 'title', 'button name')
+                .then(function() {
+                    // callback success
+                    console.log('cordovaDialogs');
+                });
+
         };
+
+
+
 
         // $scope.$on('stateChangeSuccess', function() {
         //     $scope.loadMore();

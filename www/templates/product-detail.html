@@ -1,0 +1,56 @@
+<ion-view view-title="商品详情">
+    <ion-nav-buttons side="left">
+        <button class=" button button-icon icon ion-chevron-left " ng-click="goBack()"></button>
+    </ion-nav-buttons>
+    <ion-content>
+        <!--   图片导航 -->
+        <div class="proDetail-imgs">
+            <ion-slide-box show-pager="true" does-continue="true" slide-interval="2000">
+                <ion-slide ng-repeat="productImage in drawcycle.productImages">
+                    <div class="box ">
+                        <img src="{{productImage}}"  />
+                    </div>
+                </ion-slide>
+            </ion-slide-box>
+        </div>
+        <div class="prodMes">
+            <p class="prodMes-left">（第{{drawcycle.cycle}}期）{{drawcycle.prodName}}</p>
+            <p class="prodMes-left">价值:{{drawcycle.price}}</p>
+            <progress class="progress" value="{{drawcycle.puredCnt}}" max="{{drawcycle.totCnt}}"></progress>
+            <div class="row ">
+                <div class="col">
+                    <p class="theme-color">{{drawcycle.puredCnt}}</p>
+                    <p>已参与</p>
+                </div>
+                <div class="col">
+                    <p>{{drawcycle.totCnt}}</p>
+                    <p>总需人次</p>
+                </div>
+                <div class="col">
+                    <p class="blue-color">{{drawcycle.leftCnt}}</p>
+                    <p>剩余</p>
+                </div>
+            </div>
+        </div>
+        <div class="list">
+            <div class="item item-divider"></div>
+            <a class="item " href="#/purchaseRecord">
+                <h3>图文详情</h3>
+            </a>
+            <a class="item  " href="#/winRecord">
+                <h3>本期参与者</h3>
+            </a>
+            <a class="item " href="#">
+                <h3>往期回顾 </h3>
+            </a>
+            <a class="item " href="#">
+                <h3>晒单分享</h3>
+            </a>
+        </div>
+    </ion-content>
+    <div class="bar bar-footer  product-detail-footer row">
+        <button class="button  col button-light ">立即购买</button>
+        <button class="button button-assertive col col-50">加入购物车</button>
+        <a href="#/tab/cart"><img src="img/shopping_cart.png" width="40px"></a>
+    </div>
+</ion-view>

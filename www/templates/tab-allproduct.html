@@ -1,6 +1,5 @@
 <ion-view title="所有商品">
     <!--本视图可见时，ion-nav-buttons将被导航框架载入导航栏-->
-   
     <ion-content>
         <!--  筛选栏 -->
         <div>
@@ -24,10 +23,13 @@
         </ion-refresher>
         <!--  列表内容 -->
         <div class="list ">
-            <a class="item item-thumbnail-left " href="# " ng-repeat="item in products ">
-                <img width="80 " ng-src="{{item.thumbnail}} "/>
-                <h2>（第{{item.cycle}}期）{{item.prodName}}</h2>
+            <div class="item item-thumbnail-left "  ng-repeat="item in products ">
+             <img width="80 " ng-src="{{item.thumbnail}} " class="left-min-img " />
+                <a href="#/prodDetail/{{item.drawCycleID}} " >
+                    <h2>（第{{item.cycle}}期）{{item.prodName}}</h2>
+                </a>
                 <p>价值：￥{{item.price}} </p>
+                <a href="#/prodDetail/{{item.drawCycleID}} ">
                 <progress class="progress " value="{{item.puredCnt}} " max="{{item.totCnt}} "></progress>
                 <div class="row ">
                     <div class="col ">
@@ -43,15 +45,15 @@
                         <p>剩余</p>
                     </div>
                     <div class="col ">
-                        <button class="allprod-btn-add " ng-click="addToCart({{item}})"></button>
+                        <button class="allprod-btn-add " ng-click="addToCart({{item}}) "></button>
                     </div>
-                </div>
-            </a>
+                </div></a>
+            </div>
         </div>
  <ion-infinite-scroll
-    on-infinite="loadMore()"
-    distance="1%"
-    ng-if="moreDataCanBeLoaded()">
+    on-infinite="loadMore() "
+    distance="1% "
+    ng-if="moreDataCanBeLoaded() ">
   </ion-infinite-scroll>
 </ion-infinite-scroll>
 

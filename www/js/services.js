@@ -15,8 +15,14 @@ angular.module('lqApp.services', [])
                 })
             },
             getlastItems: function(requestParams) {
-                var url = config.basePath + '/latestannounce';
-                return $http.get(url, requestParams);
+                return $http({
+                    method: 'GET',
+                    url: config.basePath + '/latestannounce',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    params: requestParams
+                })
             },
             getRecommendItems: function() {
                 var url = config.basePath + '/commons/recommended?recommendType=FRONT_PAGE';
@@ -25,14 +31,16 @@ angular.module('lqApp.services', [])
             getCategoryList: function() {
                 var url = config.basePath + '/category/list';
                 return $http.get(url);
+            },
+            getProdDetail: function(drawcycleId) {
+                var url = config.basePath + '/drawcycledetails?drawcycleId=' + drawcycleId;
+                return $http.get(url);
             }
-
         }
     }])
     .factory('loginService', ['$http', function($http) {
         return {
             doLogin: function(formUser) {
-
                 return $http({
                     method: 'POST',
                     url: config.basePath + '/login',
@@ -44,7 +52,8 @@ angular.module('lqApp.services', [])
                     params: {
                         'username': formUser.phoneNumber,
                         'password': formUser.password,
-                        'remember-me': 'Yes'
+                        'remember-me': formUser.rememberMe == true ? 'Yes' : 'No'
+
                     }
                 });
             },

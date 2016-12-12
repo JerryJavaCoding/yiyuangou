@@ -1,5 +1,7 @@
 /* Empty. Add your own CSS if you like */
-
+a{
+    text-decoration:none;
+}
 p {
     font-size: 10px!important
 }
@@ -7,6 +9,14 @@ p {
 .blue {
     color: #0c63ee;
     border-bottom: 2px solid #0c63ee;
+}
+
+.left-min-img {
+    padding: 5px;
+    max-width: none!important;
+    max-height: none!important;
+    width: 20%!important;
+    height: auto!important;
 }
 
 .noborder {
@@ -58,7 +68,7 @@ progress::-webkit-progress-value {
 /* 个人页 */
 
 .person-top-bg {
-    background: url(/img/bg_login_min.jpg);
+    background: url(../img/bg_login_min.jpg);
     height: 20%;
     text-align: center;
     margin-top: 40px
@@ -96,7 +106,7 @@ progress::-webkit-progress-value {
 
 .cart-inp {
     margin: 1px;
-    width: 20px;
+    width: 30px;
     text-align: center;
 }
 
@@ -124,6 +134,11 @@ progress::-webkit-progress-value {
     text-align: left !important;
 }
 
+.noCartItem {
+    text-align: center;
+    margin-top: 30%;
+}
+
 
 /* 最新揭晓 */
 
@@ -132,7 +147,9 @@ progress::-webkit-progress-value {
     color: #fff;
     margin: 2px;
 }
-
+.countdown-border{
+    border:3px solid #ef473a ;
+}
 
 /*所有商品*/
 
@@ -146,7 +163,7 @@ progress::-webkit-progress-value {
 }
 
 .allprod-btn-add {
-    background: url("/img/cart.png");
+    background: url("../img/cart.png");
     background-repeat: no-repeat;
     border: 0px;
     min-width: 48px;
@@ -186,4 +203,29 @@ progress::-webkit-progress-value {
 .thumb-img {
     height: 80px;
     /*width: 80px;*/
+}
+/*商品详情*/
+.product-detail-footer {
+    position: fixed;
+    margin-bottom: 0px;
+    padding-left: 20px;
+    padding-right: 10px;
+}
+.product-detail-footer button{
+   margin-right: 20px;
+}
+.prodMes{
+    padding: 10px;
+    text-align: center;
+}
+.prodMes-left{
+    text-align: left;
+}
+.proDetail-imgs{
+    margin-top: 10px;
+    margin-left:3%;
+}
+.proDetail-imgs img{
+     width:  300px; 
+    
 }

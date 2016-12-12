@@ -1,7 +1,10 @@
  angular.module('lqApp', ['ionic', 'lqApp.controllers', 'lqApp.services', 'lqApp.directives', 'lqApp.filters'])
 
  .run(function($ionicPlatform) {
+
      $ionicPlatform.ready(function() {
+
+
          // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
          // for form inputs)
          if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -13,6 +16,7 @@
              // org.apache.cordova.statusbar required
              StatusBar.styleLightContent();
          }
+
      });
  })
 
@@ -57,22 +61,28 @@
 
      //修改密码
      .state('modifyPassword', {
-         url: '/modifyPassword',
-         templateUrl: 'templates/modifyPassword.html',
-         controller: 'ModifyPasswordCtrl'
-     })
-
-     //首页模块
-     .state('tab.main', {
-         url: '/main',
-         views: {
-             'tab-main': {
-                 templateUrl: 'templates/tab-main.html',
-                 controller: 'MainCtrl'
+             url: '/modifyPassword',
+             templateUrl: 'templates/modifyPassword.html',
+             controller: 'ModifyPasswordCtrl'
+         })
+     //商品详情
+         .state('prodDetail', {
+             url: '/prodDetail/{drawcycleId}',
+              cache: 'false',
+             templateUrl: 'templates/product-detail.html',
+             controller: 'ProductDetailCtrl'
+         })
+         //首页模块
+         .state('tab.main', {
+             url: '/main',
+             views: {
+                 'tab-main': {
+                     templateUrl: 'templates/tab-main.html',
+                     controller: 'MainCtrl'
+                 }
              }
-         }
 
-     })
+         })
 
      //首页-详情模块
      .state('tab.main-detail', {
@@ -106,6 +116,7 @@
      //最新揭晓模块
      .state('tab.lastannounce', {
          url: '/lastannounce',
+         cache: 'false',
          views: {
              'tab-lastAnnounce': {
                  templateUrl: 'templates/tab-lastAnnounce.html',
@@ -119,7 +130,7 @@
      //购物车模块
      .state('tab.cart', {
          url: '/cart',
-         cache:'false',
+         cache: 'false',
          views: {
              'tab-cart': {
 
