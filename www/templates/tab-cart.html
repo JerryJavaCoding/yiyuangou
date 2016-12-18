@@ -28,6 +28,6 @@
     <div class="bar bar-footer bar-stable cart-statistics " ng-if="cartItems.length!=0 ">
         <div class="title ">共<span class="theme-color ">{{cartItems.length}}</span>件商品，合计<span class="theme-color ">{{totPri}}</span>元
         </div>
-        <button class="button button-assertive ">去结算</button>
+        <button class="button button-assertive " ng-click="pay()">去结算</button>
     </div>
 </ion-view>

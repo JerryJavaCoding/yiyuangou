@@ -1,7 +1,9 @@
 /* Empty. Add your own CSS if you like */
-a{
-    text-decoration:none;
+
+a {
+    text-decoration: none;
 }
+
 p {
     font-size: 10px!important
 }
@@ -65,7 +67,7 @@ progress::-webkit-progress-value {
 }
 
 
-/* ¸öÈËÒ³ */
+/* Â¸Ã¶ÃˆÃ‹Ã’Â³ */
 
 .person-top-bg {
     background: url(../img/bg_login_min.jpg);
@@ -85,10 +87,11 @@ progress::-webkit-progress-value {
     width: 30%;
     display: inline-block;
     vertical-align: middle;
+    margin-top: 50px;
 }
 
 
-/* ¹ºÎï³µ */
+/* Â¹ÂºÃÃ¯Â³Âµ */
 
 .cart-nums {
     display: inline-flex;
@@ -140,18 +143,20 @@ progress::-webkit-progress-value {
 }
 
 
-/* ×îĞÂ½ÒÏş */
+/* Ã—Ã®ÃÃ‚Â½Ã’ÃÃ¾ */
 
 .lastannounce-left-time {
     background: #ef473a;
     color: #fff;
     margin: 2px;
 }
-.countdown-border{
-    border:3px solid #ef473a ;
+
+.countdown-border {
+    border: 3px solid #ef473a;
 }
 
-/*ËùÓĞÉÌÆ·*/
+
+/*Ã‹Ã¹Ã“ÃÃ‰ÃŒÃ†Â·*/
 
 .allproduct-nav {
     padding: 15px;
@@ -175,7 +180,7 @@ progress::-webkit-progress-value {
 }
 
 
-/*Ê×Ò³*/
+/*ÃŠÃ—Ã’Â³*/
 
 .img-side {
     height: 40%;
@@ -204,28 +209,64 @@ progress::-webkit-progress-value {
     height: 80px;
     /*width: 80px;*/
 }
-/*ÉÌÆ·ÏêÇé*/
+
+
+/*Ã‰ÃŒÃ†Â·ÃÃªÃ‡Ã©*/
+
 .product-detail-footer {
     position: fixed;
     margin-bottom: 0px;
     padding-left: 20px;
     padding-right: 10px;
 }
-.product-detail-footer button{
-   margin-right: 20px;
+
+.product-detail-footer button {
+    margin-right: 20px;
 }
-.prodMes{
+
+.prodMes {
     padding: 10px;
     text-align: center;
 }
-.prodMes-left{
+
+.prodMes-left {
     text-align: left;
 }
-.proDetail-imgs{
+
+.proDetail-imgs {
     margin-top: 10px;
-    margin-left:3%;
+    margin-left: 3%;
 }
-.proDetail-imgs img{
-     width:  300px; 
-    
+
+.proDetail-imgs img {
+    width: 300px;
+}
+
+
+/*å¾€æœŸå›é¡¾*/
+
+.circle-history {
+    padding: 10px;
+    width: 100%;
+    height: 900px;
+    background-color: ghostwhite;
+}
+
+.circle-history a {
+    float: left;
+    font-size: 20px;
+    margin: 2px;
+    padding: 2px;
+    width: 30%;
+    border: 1px #000 solid;
+    background-color: white;
+}
+
+.computeDetail {
+    padding: 0px;
+}
+
+.computeResult {
+    background-color: #ef473a;
+    color: white;
 }

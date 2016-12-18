@@ -1,23 +1,25 @@
 <ion-view view-title="商品详情">
-    <ion-nav-buttons side="left">
+    <ion-nav-buttons>
         <button class=" button button-icon icon ion-chevron-left " ng-click="goBack()"></button>
     </ion-nav-buttons>
     <ion-content>
         <!--   图片导航 -->
         <div class="proDetail-imgs">
             <ion-slide-box show-pager="true" does-continue="true" slide-interval="2000">
-                <ion-slide ng-repeat="productImage in drawcycle.productImages">
+                <ion-slide ng-repeat="productImage in prodImgs">
                     <div class="box ">
-                        <img src="{{productImage}}"  />
+                        <img src="{{productImage}}" />
                     </div>
                 </ion-slide>
             </ion-slide-box>
         </div>
         <div class="prodMes">
+            <div class="prodMes-left theme-color"> {{drawcycle.drawStatus|drawStatusFilter}} </div>
             <p class="prodMes-left">（第{{drawcycle.cycle}}期）{{drawcycle.prodName}}</p>
-            <p class="prodMes-left">价值:{{drawcycle.price}}</p>
-            <progress class="progress" value="{{drawcycle.puredCnt}}" max="{{drawcycle.totCnt}}"></progress>
-            <div class="row ">
+            <p class="prodMes-left">价值:￥{{drawcycle.price}}</p>
+            <progress class="progress" value="{{drawcycle.puredCnt}}" max="{{drawcycle.totCnt}}" ng-if="drawcycle.drawStatus=='OPEN'"></progress>
+            <!--未开奖-->
+            <div class="row " ng-if="drawcycle.drawStatus=='OPEN'">
                 <div class="col">
                     <p class="theme-color">{{drawcycle.puredCnt}}</p>
                     <p>已参与</p>
@@ -31,26 +33,134 @@
                     <p>剩余</p>
                 </div>
             </div>
+            <!--已揭晓-->
+            <div ng-if="drawcycle.drawStatus=='ANNOUNCED'">
+                <a class="item item-avatar prodMes-left" " href="# ">
+                      <img src="img/otherPerson.png">
+                      <h2>获得者：{{drawcycle.winnerName}}</h2>
+                      <p>揭晓时间：{{drawcycle.announceDate}}</p>
+                      <p>购买时间：{{drawcycle.winnerPurchedDate}}</p>
+                      <p>获奖者在本期参与：{{drawcycle.winnerPartCnt}}人次</p>
+                </a>       
+            <h4 class="prodMes-left ">幸运号码：<span class="theme-color">{{drawcycle.finalRslt}}</span> </h4>
+            <button class="button button-assertive" ng-click="openModal5()">计算详情</button>
+            </div>
         </div>
         <div class="list">
             <div class="item item-divider"></div>
-            <a class="item " href="#/purchaseRecord">
+            <a class="item " href="javaScript:void(0);" ng-click="openModal1()">
                 <h3>图文详情</h3>
             </a>
-            <a class="item  " href="#/winRecord">
+            <a class="item  " href="javaScript:void(0);" ng-click="openModal2()">
                 <h3>本期参与者</h3>
             </a>
-            <a class="item " href="#">
+            <a class="item " href="javaScript:void(0);" ng-click="openModal3()">
                 <h3>往期回顾 </h3>
             </a>
-            <a class="item " href="#">
+            <a class="item " href="javaScript:void(0);" ng-click="openModal4()">
                 <h3>晒单分享</h3>
             </a>
         </div>
     </ion-content>
-    <div class="bar bar-footer  product-detail-footer row">
-        <button class="button  col button-light ">立即购买</button>
-        <button class="button button-assertive col col-50">加入购物车</button>
+    <div class="bar bar-footer  product-detail-footer row" ng-if="drawcycle.drawStatus=='OPEN'">
+        <button class="button  col button-light " ng-click="buyNow()">立即购买</button>
+        <button class="button button-assertive col col-50" ng-click="addToCart()">加入购物车</button>
+        <a href="#/tab/cart"><img src="img/shopping_cart.png" width="40px"></a>
+    </div>
+    <div class="bar bar-footer  product-detail-footer row" ng-if="drawcycle.drawStatus=='ANNOUNCED'">
+        <button class="button button-assertive col col-75" ng-click="changeDrawcycle({{lastCycle.cycleId}})">第{{lastCycle.cycle}}期正在进行中...</button>
         <a href="#/tab/cart"><img src="img/shopping_cart.png" width="40px"></a>
     </div>
 </ion-view>
+<!-- 图文详情 -->
+<script id="picDetail.html" type="text/ng-template">
+    <div class="modal">
+        <ion-header-bar class="bar-assertive text-center">
+            <button class=" button button-icon  " ng-click="closeModal()">关闭</button>
+            <h1 class="title">图文详情</h1>
+        </ion-header-bar>
+        <ion-content>
+            <div ng-bind-html="prodPicDetail"></div>
+        </ion-content>
+    </div>
+</script>
+<!-- 本期参与者 -->
+<script id="particiton.html" type="text/ng-template">
+    <div class="modal">
+        <ion-header-bar class="bar-assertive text-center">
+            <button class=" button button-icon  " ng-click="closeModal()">关闭</button>
+            <h1 class="title">本期参与者</h1>
+        </ion-header-bar>
+        <ion-content>
+            <ion-list>
+                <ion-item ng-repeat="item in particiton">
+                    <p>参与用户：{{item.customerName}}</p>
+                    <p>购买数：{{item.purchCount}}</p>
+                    <p>购买时间{{item.purchDate}}</p>
+                </ion-item>
+            </ion-list>
+            <ion-infinite-scroll on-infinite="loadMore() " distance="2% " ng-if="moreDataCanBeLoaded() ">
+        </ion-content>
+    </div>
+</script>
+<!-- 往期回顾 -->
+<script id="cycles.html" type="text/ng-template">
+    <div class="modal">
+        <ion-header-bar class="bar-assertive text-center">
+            <button class=" button button-icon  " ng-click="closeModal()">关闭</button>
+            <h1 class="title">往期回顾</h1>
+        </ion-header-bar>
+        <ion-content>
+            <div class="circle-history">
+                <a ng-repeat="item in allCycle" ng-class="{true:'theme-color',false:''}[item.drawCycleID==drawcycleId]" href="javaScript:void(0);" ng-click="changeCycle({{item}})">第{{item.cycle}}期</a>
+            </div>
+        </ion-content>
+    </div>
+</script>
+<!-- 晒单分享 -->
+<script id="share.html" type="text/ng-template">
+    <div class="modal">
+        <ion-header-bar class="bar-assertive text-center">
+            <button class=" button button-icon " ng-click="closeModal()">关闭</button>
+            <h1 class="title">晒单分享</h1>
+        </ion-header-bar>
+        <ion-content>
+            Hello!
+        </ion-content>
+    </div>
+</script>
+<!--计算详情-->
+<script id="computeDetail.html" type="text/ng-template">
+    <div class="modal">
+        <ion-header-bar class="bar-assertive text-center">
+            <button class=" button button-icon " ng-click="closeModal()">关闭</button>
+            <h1 class="title">计算详情</h1>
+        </ion-header-bar>
+        <ion-content>
+            <!--数据-->
+            <ion-list>
+            <ion-item class="computeDetail" style="background-color: whitesmoke;">
+                <div class="row">
+                    <div class="col-50"><p>云购时间</p></div>
+                    <div class="col"><p>数据</p></div>
+                    <div class="col"><p>参与者</p></div>
+                </div>
+             </ion-item>
+                <ion-item ng-repeat="item in calcInforList" class="computeDetail">
+                <div class="row">
+                    <div class="col"><p>{{item.purchDate}}{{item.purchTime}}</p></div>
+                    <div class="col" style="text-align: center;"><p>{{item.result}}</p></div>
+                    <div class="col"><p>{{item.customerNme}}</p></div>
+                </div>
+                 </ion-item>
+            </ion-list>
+            <!--计算结果-->
+            <div class="computeResult">
+            <p>取以上数值结果得：</p>
+            <p>1、求和：A={{calculateResult.summation}}（上面100条计算数据之和）</p>
+            <p>2、取余：B={{calculateResult.summation}}(A)%{{calculateResult.participaintCnt}}（本商品总参与人次）={{calculateResult.remainder}}（余数）</p>
+            <p>3、结果：{{calculateResult.remainder}}(B)+10000001={{calculateResult.finalResult}}</p>
+            </div>
+        </ion-content>
+    </div>
+</script>

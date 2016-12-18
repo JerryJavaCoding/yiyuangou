@@ -35,6 +35,20 @@ angular.module('lqApp.services', [])
             getProdDetail: function(drawcycleId) {
                 var url = config.basePath + '/drawcycledetails?drawcycleId=' + drawcycleId;
                 return $http.get(url);
+            },
+            getParticipation: function(requestParams) {
+                return $http({
+                    method: 'GET',
+                    url: config.basePath + '/participation',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    params: requestParams
+                })
+            },
+            getComputeDetail: function(drawcycleId) {
+                var url = config.basePath + '/drawresult?drawcycleId=' + drawcycleId;
+                return $http.get(url);
             }
         }
     }])
@@ -63,6 +77,24 @@ angular.module('lqApp.services', [])
             }
 
         };
+    }])
+    .factory('prodService', ['$http', function($http) {
+        return {
+            getProdPicDetail: function(productID) {
+                var url = config.basePath + '/productdetails?productID=' + productID;
+                return $http.get(url);
+            },
+            getHistoryCircle: function(requestParams) {
+                return $http({
+                    method: 'GET',
+                    url: config.basePath + '/allcycles',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    params: requestParams
+                })
+            }
+        }
     }])
     .factory('personService', ['$http', function($http) {
         return {
@@ -109,6 +141,17 @@ angular.module('lqApp.services', [])
                 return JSON.parse($window.localStorage[key] || '[]');
             }
 
+        }
+    }])
+    .factory('checkOut', ['$http', function($http) {
+        return {
+            pay: function(requestParams) {
+                // var data = JSON.stringify(requestParams);
+                
+                var url=config.basePath + '/checkout';
+                return $http.post(url, requestParams);
+               
+            }
         }
     }])
     .factory('$data', function($http) {

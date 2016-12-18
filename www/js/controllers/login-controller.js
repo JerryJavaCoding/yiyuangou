@@ -3,7 +3,7 @@
  */
 angular.module('login-controller', [])
 
-.controller('LoginCtrl', ['$scope', '$window', '$ionicPopup', '$timeout', '$state', 'loginService', function($scope, $window, $ionicPopup, $timeout, $state, loginService) {
+.controller('LoginCtrl', ['$scope','locals', '$window', '$ionicPopup', '$timeout', '$state', 'loginService', function($scope,locals, $window, $ionicPopup, $timeout, $state, loginService) {
     $scope.formUser = { rememberMe: true };
     $scope.successPopup = {};
     $scope.goBack = function() {
@@ -21,6 +21,7 @@ angular.module('login-controller', [])
                 //登陆成功
                 if (resultCode == '000') {
                     $scope.successPopup.close();
+                      locals.set("isPersistLogined", 'true');
                     $state.go("tab.personal", {}, { reload: true });
 
                 }

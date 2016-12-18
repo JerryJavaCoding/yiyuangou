@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.ionicframework.yiyuangou369773" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>yiyuangou</name>
+    <name>一元云购</name>
     <description>
         An Ionic Framework and Cordova project.
     </description>
@@ -19,12 +19,11 @@
     <feature name="StatusBar">
         <param name="ios-package" value="CDVStatusBar" onload="true" />
     </feature>
-    <!-- for iOS -->
-   <!--  <feature name="Toast">
-        <param name="ios-package" value="Toast" />
-    </feature> -->
-    <!-- for Android -->
-    <feature name="Toast">
-        <param name="android-package" value="nl.xservices.plugins.Toast" />
-    </feature>
+
+    <platform name="android">
+        <icon src="resources/android/icon/app.png" />
+        <splash src="resources/android/splash/start.png" />
+    </platform>
+    <preference name="SplashScreen" value="screen" />
 </widget>
+ 

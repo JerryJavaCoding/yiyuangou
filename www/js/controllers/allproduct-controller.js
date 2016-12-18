@@ -2,7 +2,7 @@
  * Created by zhoupan on 2015/9/15.
  */
 angular.module('allproduct-controller', [])
-    .controller('allproductCtrl', ['$scope',  'locals', '$ionicActionSheet', 'drawcycleService', '$ionicModal', '$timeout', '$data', function($scope, locals, $ionicActionSheet, drawcycleService, $ionicModal, $timeout, $data) {
+    .controller('allproductCtrl', ['$scope',  'locals', '$ionicActionSheet', 'drawcycleService', '$ionicModal', '$timeout', '$ionicPopup', function($scope, locals, $ionicActionSheet, drawcycleService, $ionicModal, $timeout, $ionicPopup) {
         $scope.selectedCat = { label: "全部商品", 'value': '1' };
         $scope.products = [];
         $scope.categoryList = [];
@@ -74,25 +74,30 @@ angular.module('allproduct-controller', [])
         };
         //添加到购物车，存到本地变量
         $scope.addToCart = function(drawCycle) {
-            drawCycle.myBuyCnt = 0;
+            drawCycle.myBuyCnt = 1;
             var cartItems = locals.getArray("cartItems");
+            $scope.showAlert ("已添加到购物车");
+            //防止同一件商品添加两次到购物车
             for (var i = 0; i < cartItems.length; i++) {
-                if (cartItems[i].drawCycleID == drawCycle.drawCycleID) {
-                    alert("已添加到购物车");
-                    return;
-                }
-            }
+               if (cartItems[i].drawCycleID == drawCycle.drawCycleID) {              
+                   return;
+               }
+           }
             cartItems.push(drawCycle);
-            debugger;
+           
             locals.setObject("cartItems", cartItems);
-            $cordovaDialogs.alert('message', 'title', 'button name')
-                .then(function() {
-                    // callback success
-                    console.log('cordovaDialogs');
-                });
+          
 
         };
-
+$scope.showAlert = function(mes) {
+     var alertPopup = $ionicPopup.alert({
+       title: '购物车',
+       template: mes
+     });
+     alertPopup.then(function(res) {
+       console.log('Thank you for not eating my delicious ice cream cone');
+     });
+   };
 
 
 

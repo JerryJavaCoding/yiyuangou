@@ -4,12 +4,12 @@
         <button class="button  noborder icon ion-settings" ></button>
     </ion-nav-buttons>
     <!-- person页面的顶部彩色区域 -->
-    <div class="person-top-bg" ng-hide="isPersistLogined">
+    <div class="person-top-bg" ng-if="isPersistLogined=='false'">
         <button class="button button-stable person-top-button" ng-click="login()">
             登&nbsp;&nbsp;&nbsp;陆
         </button>
     </div>
-    <div style="margin-top: 40px" ng-show="isPersistLogined">
+    <div style="margin-top: 40px" ng-if="isPersistLogined=='true'">
         <a class="item item-thumbnail-left" href="#">
             <img ng-src="img/me.png">
             <h2>{{myInfo.nickname}}</h2>

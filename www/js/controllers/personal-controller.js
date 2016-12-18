@@ -3,20 +3,26 @@
  */
 angular.module('personal-controller', [])
     .controller('PersonalCtrl', ['loginService', 'locals', 'personService', '$scope', '$ionicPopup', '$state', function(loginService, locals, personService, $scope, $ionicPopup, $state) {
-        $scope.isPersistLogined = locals.get("isPersistLogined");
+        $scope.isPersistLogined = locals.get("isPersistLogined")||'false';
         $scope.myInfo = locals.get("myInfo");
 
-
+        console.log( $scope.isPersistLogined );
         //自动获取个人资料
-        personService.home().success(function(data) {
-            if (data.header.code == '000') {
-                $scope.myInfo = data.body.customerDetails;
-                $scope.isPersistLogined = true;
-                locals.setObject("myInfo", $scope.myInfo);
-                locals.set("isPersistLogined", true);
-                
-            }
-        });
+        if ($scope.isPersistLogined == 'true') {
+            personService.home().success(function(data) {
+                if (data.header.code == '000') {
+                    $scope.myInfo = data.body.customerDetails;
+                    $scope.isPersistLogined = 'true';
+                    locals.setObject("myInfo", $scope.myInfo);
+                    locals.set("isPersistLogined", 'true');
+
+                } else {
+                    $scope.isPersistLogined = 'false';
+                    locals.setObject("myInfo", {});
+                    locals.set("isPersistLogined", 'false');
+                }
+            });
+        }
         $scope.login = function() {
             $state.go('login');
         };
@@ -25,9 +31,9 @@ angular.module('personal-controller', [])
             loginService.doLogout().success(function(data) {
                 if (data.header.code == '000') {
                     $scope.myInfo = {};
-                    $scope.isPersistLogined = false;
+                    $scope.isPersistLogined = 'false';
                     locals.setObject("myInfo", '');
-                    locals.set("isPersistLogined", false);
+                    locals.set("isPersistLogined", 'false');
                 }
             });
         }
@@ -81,7 +87,7 @@ angular.module('personal-controller', [])
         });
     }])
     .controller('winRecordCtrl', ['$scope', '$window', 'personService', function($scope, $window, personService) {
-       
+
         $scope.items = {};
         $scope.goBack = function() {
             $window.history.go(-1);
@@ -91,13 +97,13 @@ angular.module('personal-controller', [])
 
         });
     }])
-    .controller('accountDetailCtrl', ['$scope','$window','personService' ,function($scope,$window,personService){
-        $scope.balanceItems={};
+    .controller('accountDetailCtrl', ['$scope', '$window', 'personService', function($scope, $window, personService) {
+        $scope.balanceItems = {};
         $scope.goBack = function() {
             $window.history.go(-1);
         }
-        personService.accountDetail().success(function(data){
-           $scope.balanceItems= data.body.balanceHistoryList;
+        personService.accountDetail().success(function(data) {
+            $scope.balanceItems = data.body.balanceHistoryList;
         });
 
     }])

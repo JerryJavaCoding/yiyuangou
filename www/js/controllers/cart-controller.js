@@ -2,12 +2,13 @@
  * Created by zhoupan on 2015/9/15.
  */
 angular.module('cart-controller', [])
-    .controller('CartCtrl', ['$scope', '$data', 'locals', '$ionicPopup', '$ionicListDelegate', function($scope, $data, locals, $ionicPopup, $ionicListDelegate) {
+    .controller('CartCtrl', ['$scope', 'checkOut', 'locals', '$ionicPopup', '$ionicListDelegate', '$state',function($scope, checkOut, locals, $ionicPopup, $ionicListDelegate,$state) {
         var leftQuantity = 10; //剩余人次
         $scope.quantity = 0; //购买的数量
         $scope.totPri = 0;
         $scope.cartItems = locals.getArray("cartItems");
-        
+        $scope.myinfo=locals.getObject("myInfo");
+
         for (i = 0; i < $scope.cartItems.length; i++) {
             $scope.totPri += $scope.cartItems[i].myBuyCnt * $scope.cartItems[i].buyUnit;
         }
@@ -29,7 +30,7 @@ angular.module('cart-controller', [])
         // -
         $scope.quantityMinus = function(drawcycle) {
             var myBuyCnt = drawcycle.myBuyCnt;
-            if (myBuyCnt > 0) {
+            if (myBuyCnt > 1) {
                 drawcycle.myBuyCnt--;
                 updateTotPrice();
                 updateLocalStorage(drawcycle);
@@ -38,7 +39,6 @@ angular.module('cart-controller', [])
         $scope.inputBuyCnt = function(drawcycle) {
 
             var buyCnt = drawcycle.myBuyCnt;
-            debugger;
             if (drawcycle.leftCnt < buyCnt)
                 drawcycle.myBuyCnt = drawcycle.leftCnt;
             updateTotPrice();
@@ -72,7 +72,42 @@ angular.module('cart-controller', [])
                     console.log('取消删除！');
                 }
             });
+        };
+        //结算
+        $scope.pay = function() {
+            var cartItems = locals.getArray("cartItems");
+            var requestParams={};
+            requestParams.items = [];
+            requestParams.paymentType = 'BALANCE';
+            requestParams.customerId= $scope.myinfo.customerId;
+           if(requestParams.customerId==''|| typeof(requestParams.customerId) == "undefined") { 
+                $scope.showAlert('请先登录');
+                $state.go("tab.personal");
+            }
+            for (i = 0; i < cartItems.length; i++) {
+                var item = { cycleId: cartItems[i].drawCycleID, count: cartItems[i].myBuyCnt };
+                requestParams.items.push(item);
+            }
+            checkOut.pay(requestParams).success(function(data) {
+                if (data.header.code == '000') {
+                    $scope.showAlert("购买成功！");
+                    locals.setObject("cartItems",[]);
+                     $scope.cartItems=[];
+                } else {
+                    $scope.showAlert("购买失败！");
+                }
+
+            });
         }
+        $scope.showAlert = function(mes) {
+            var alertPopup = $ionicPopup.alert({
+                title: '提示',
+                template: mes
+            });
+            /*alertPopup.then(function(res) {
+                console.log('Thank you for not eating my delicious ice cream cone');
+            });*/
+        };
 
         function removeByValue(arr, val) {
             for (var i = 0; i < arr.length; i++) {

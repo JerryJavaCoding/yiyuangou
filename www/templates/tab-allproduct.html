@@ -29,9 +29,10 @@
                     <h2>（第{{item.cycle}}期）{{item.prodName}}</h2>
                 </a>
                 <p>价值：￥{{item.price}} </p>
-                <a href="#/prodDetail/{{item.drawCycleID}} ">
+               
                 <progress class="progress " value="{{item.puredCnt}} " max="{{item.totCnt}} "></progress>
                 <div class="row ">
+
                     <div class="col ">
                         <p class="theme-color ">{{item.puredCnt}}</p>
                         <p>已参与</p>
@@ -44,10 +45,11 @@
                         <p class="blue-color ">{{item.leftCnt}}</p>
                         <p>剩余</p>
                     </div>
+                    
                     <div class="col ">
                         <button class="allprod-btn-add " ng-click="addToCart({{item}}) "></button>
                     </div>
-                </div></a>
+                </div>
             </div>
         </div>
  <ion-infinite-scroll

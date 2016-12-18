@@ -14,7 +14,7 @@ angular.module('lqApp.filters', [])
                 case 'ANNOUNCED':
                     change = '已揭晓';
                     break;
-                case 'aaa':
+                case 'OPEN':
                     change = '进行中';
                     break;
             }
