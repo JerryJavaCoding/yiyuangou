@@ -5,7 +5,8 @@ angular.module('productDetail-controller', [])
         $scope.modal = '';
         $scope.prodPicDetail = '';
         $scope.prodImgs=[];
-        var cartItems = locals.getArray("cartItems");
+        $scope.cartItems = locals.getArray("cartItems");
+
         $scope.goBack = function() {
             $window.history.go(-1);
          };
@@ -27,9 +28,16 @@ angular.module('productDetail-controller', [])
         };
         //添加到购物车
         $scope.addToCart = function() {
+        	
+        	//防止同一件商品添加两次到购物车
+            for (var i = 0; i < $scope.cartItems.length; i++) {
+               if ($scope.cartItems[i].drawCycleID == $scope.drawcycle.drawCycleID) {              
+                   return;
+               }
+           }
             $scope.drawcycle.myBuyCnt = 1;
-            cartItems.push($scope.drawcycle);
-            locals.setObject("cartItems", cartItems);
+            $scope.cartItems.push($scope.drawcycle);
+            locals.setObject("cartItems", $scope.cartItems);
         };
         // 图文详情
         $scope.openModal1 = function() {

@@ -1,13 +1,12 @@
 <ion-view title="我的云购" >
     <!--本视图可见时，ion-nav-buttons将被导航框架载入导航栏-->
-    <ion-nav-buttons side="right">
-        <button class="button  noborder icon ion-settings" ></button>
-    </ion-nav-buttons>
+    
     <!-- person页面的顶部彩色区域 -->
     <div class="person-top-bg" ng-if="isPersistLogined=='false'">
         <button class="button button-stable person-top-button" ng-click="login()">
             登&nbsp;&nbsp;&nbsp;陆
         </button>
+       
     </div>
     <div style="margin-top: 40px" ng-if="isPersistLogined=='true'">
         <a class="item item-thumbnail-left" href="#">
@@ -17,12 +16,12 @@
             <button class="button button-light" ng-click="logout()">退出</button>
             
         </a>
-        <div class="row">
-            <div class="col">福分：{{myInfo.point}}</div>
-            <div class="col">余额：{{myInfo.balance}}</div>
-            <div class=" col button button-assertive">去充值</div>
+        <div class="row">       
+            <div class="col">余额：￥{{myInfo.balance}}</div>
+            <div class=" col-25 button button-assertive">去充值</div>
         </div>
     </div>
+    
     <!-- 下方列表区 -->
     <ion-scroll>
         <div class="list">
@@ -32,21 +31,18 @@
             <a class="item item-icon-left " href="#/winRecord">
                 <i class="icon ion-ribbon-a"></i> 中奖纪录
             </a>
-            <a class="item item-icon-left" href="#">
+             <div class="item item-divider"></div>
+            <a class="item item-icon-left" href="#/myshow">
                 <i class="icon ion-images"></i> 我的晒单
             </a>
             <div class="item item-divider"></div>
-            <a class="item item-icon-left" href="#">
-                <i class="icon ion-ios-game-controller-b"></i>任务奖励
-                <span class="badge badge-assertive">0</span>
+            <a class="item item-icon-left" href="#/modifyPassword">
+                <i class="icon ion-settings"></i> 修改密码
             </a>
-            <a class="item item-icon-left" href="#/accountDetail">
-                <i class="icon ion-social-yen"></i> 账户明细
-            </a>
-            <div class="item item-divider"></div>
-            <a class="item item-icon-left" href="#">
-                <i class="icon ion-ios-person"></i> 个人资料
-            </a>
+           
+           
+            
+           
         </div>
     </ion-scroll>
     </div>

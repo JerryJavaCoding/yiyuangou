@@ -1,4 +1,7 @@
 <ion-view title="最新揭晓">
+    <ion-nav-buttons side="right">
+        <button class="button  noborder icon ion-images" ng-click="openModal()"></button>
+    </ion-nav-buttons>
     <ion-content>
         <ion-refresher pulling-text="下拉刷新... " on-refresh="doRefresh() ">
         </ion-refresher>
@@ -15,10 +18,10 @@
                 </div>
                 <div ng-if="item.drawStatus=='ANNOUNCED'" class="item-thumbnail-left">
                     <img ng-src="{{item.thumbnail}}" class="left-min-img">
-                     <a href="#/prodDetail/{{item.drawCycleID}}">
-                    <h2>获得者：{{item.winnerName}}</h2>
-                    <p>售价：￥{{item.price}}</p>
-                    <p>揭晓时间：{{item.announceDate}}</p>
+                    <a href="#/prodDetail/{{item.drawCycleID}}">
+                        <h2>获得者：{{item.winnerName}}</h2>
+                        <p>售价：￥{{item.price}}</p>
+                        <p>揭晓时间：{{item.announceDate}}</p>
                     </a>
                 </div>
             </ion-item>
@@ -26,3 +29,35 @@
         <!--  <ion-infinite-scroll on-infinite="loadMore() " distance="1% " ng-if="moreDataCanBeLoaded() "> -->
     </ion-content>
 </ion-view>
+<!-- 晒单 -->
+<script id="allshare.html " type="text/ng-template ">
+    <div class="modal ">
+        <ion-header-bar class="bar-assertive text-center ">
+            <button class=" button button-icon " ng-click="closeModal() ">关闭</button>
+            <h1 class="title ">晒单分享</h1>
+        </ion-header-bar>
+        <ion-content>
+            <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefreshShow()">
+            </ion-refresher>
+            <!--  列表内容 -->
+            <div class="list">
+                <div class="item " ng-repeat="item in showRecords">
+                    <img src="img/otherPerson.png " width="30px">
+                    <span>{{item.custName}}</span>
+                    <p>
+                        第（{{item.cycle}}）期 {{item.prodName}}
+                    </p>
+                    <p>{{item.content}}</p>
+                    <div>
+                        <img ng-repeat="img in item.images" src="{{img}}" width="30%">
+                    </div>
+                    <p>时间：{{item.showDate}}</p>
+                    <div>
+                    </div>
+                </div>
+            </div>
+            <ion-infinite-scroll ng-if="moreDataCanBeLoadedShow()" icon="ion-loading-c" on-infinite="loadMoreShow()" distance="1%">
+            </ion-infinite-scroll>
+        </ion-content>
+    </div>
+</script>

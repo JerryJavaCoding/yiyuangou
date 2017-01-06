@@ -66,7 +66,7 @@ angular.module('allproduct-controller', [])
         };
         //允许上拉加载的判断条件
         $scope.moreDataCanBeLoaded = function() {
-
+            // debugger;
             if ((requestParams.page + 1) > totalPage)
                 return false;
             else

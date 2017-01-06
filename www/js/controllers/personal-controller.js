@@ -3,10 +3,10 @@
  */
 angular.module('personal-controller', [])
     .controller('PersonalCtrl', ['loginService', 'locals', 'personService', '$scope', '$ionicPopup', '$state', function(loginService, locals, personService, $scope, $ionicPopup, $state) {
-        $scope.isPersistLogined = locals.get("isPersistLogined")||'false';
+        $scope.isPersistLogined = locals.get("isPersistLogined") || 'false';
         $scope.myInfo = locals.get("myInfo");
 
-        console.log( $scope.isPersistLogined );
+        console.log($scope.isPersistLogined);
         //自动获取个人资料
         if ($scope.isPersistLogined == 'true') {
             personService.home().success(function(data) {
@@ -86,8 +86,13 @@ angular.module('personal-controller', [])
 
         });
     }])
-    .controller('winRecordCtrl', ['$scope', '$window', 'personService', function($scope, $window, personService) {
-
+    .controller('winRecordCtrl', ['$scope', '$state','$window','$timeout', '$ionicPopup', 'winprize', '$window', 'personService', function($scope, $state,$window,$timeout, $ionicPopup, winprize, $window, personService) {
+        $scope.logisticsMes = {
+            receiverName: '',
+            receiverAddress: '',
+            receiverCellPhone: ''
+        }; //物流信息
+        $scope.logisticsList = [{}];
         $scope.items = {};
         $scope.goBack = function() {
             $window.history.go(-1);
@@ -96,6 +101,50 @@ angular.module('personal-controller', [])
             $scope.items = data.body.winPrizeList;
 
         });
+        //领取奖品
+        $scope.pickUp = function(winprizeId) {
+               $ionicPopup.show({
+                    templateUrl: 'templates/popupLogistics.html',
+                    title: '收货地址',
+                    scope: $scope,
+                    buttons: [
+                        { text: '取消' }, {
+                            text: '<b>提交</b>',
+                            type: 'button-positive',
+                            onTap: function(e) {
+                                if (!$scope.logisticsMes) {
+                                    e.preventDefault();
+                                } else {
+                                	//填写完物流信息并确认提交
+                                    var reqParams = {
+                                        "winprizeId": winprizeId,
+                                        "receiverName": $scope.logisticsMes.receiverName,
+                                        "receiverAddress": $scope.logisticsMes.receiverAddress,
+                                        "receiverCellPhone": $scope.logisticsMes.receiverCellPhone
+                                    };
+                                    winprize.pickUp(reqParams).success(function(data) {
+                                        console.log("提交成功");
+                                        $window.location.reload();
+                                    });
+                                }
+                            }
+                        },
+                    ]
+                });                
+
+            }
+            //确认收货
+        $scope.confirmRece = function(winprizeId) {
+            winprize.receive(winprizeId).success(function(data) {
+                // console.log("确认收货成功");
+                $window.location.reload();
+            });
+        };
+
+        function messageAlert(winprizeId) {
+
+        }
+        
     }])
     .controller('accountDetailCtrl', ['$scope', '$window', 'personService', function($scope, $window, personService) {
         $scope.balanceItems = {};

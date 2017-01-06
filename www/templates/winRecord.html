@@ -5,13 +5,17 @@
     <ion-content>
         <!--  列表内容 -->
         <div class="list">
-            <a class="item item-thumbnail-left" href="#" ng-repeat="item in items">
+            <div class="item item-thumbnail-left"  ng-repeat="item in items">
                 <img src="{{item.thumbnail}}">
                 <h2>(第{{item.cycle}}期){{item.productName}}</h2>
                 <p>售价：{{item.purPrice}}</p>
                 <p>中奖号码：{{item.finalResult}}</p>
                 <p>中奖时间：{{item.announceDate}}</p>
-            </a>
+                <p>状态：{{item.claimStatus|ClaimStatusFilter}}</p>
+                <button ng-if="item.claimStatus=='UNCLAIMED'" class="button" ng-click="pickUp(item.winprizeId)">领取奖品</button>
+                <button ng-if="item.claimStatus=='LOGISTIC_SENT'" class="button" ng-click="confirmRece(item.winprizeId)">确认收货</button>
+                <a ng-if="item.claimStatus=='CLAIMED'" class="button" href="#/toShow/{{item.winprizeId}}">去晒单</a>
+            </div>
         </div>
     </ion-content>
 </ion-view>

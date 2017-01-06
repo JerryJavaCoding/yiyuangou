@@ -242,6 +242,15 @@ progress::-webkit-progress-value {
     width: 300px;
 }
 
+.cartImgDiv img{
+	width:48px;
+}
+.cartImgDiv span{
+
+	margin-left:33px;
+	position:absolute;
+	z-index:999;
+}
 
 /*往期回顾*/
 

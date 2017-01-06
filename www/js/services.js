@@ -78,6 +78,57 @@ angular.module('lqApp.services', [])
 
         };
     }])
+    .factory('register', ['$http', function($http) {
+        return {
+            validate: function(formUser) {
+                return $http({
+                    method: 'POST',
+                    url: config.basePath + '/registraion/validate',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    "async": true,
+                    "crossDomain": true,
+                    params: {
+                        'cellphone': formUser.phoneNumber,
+                        'password': formUser.password,
+
+
+                    }
+                });
+            },
+            registe: function(customerCode) {
+                return $http({
+                    method: 'POST',
+                    url: config.basePath + '/registraion/register',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    "async": true,
+                    "crossDomain": true,
+                    params: {
+                        'customerCode': customerCode
+
+                    }
+                });
+            },
+            modifyPassword: function(originalPwd, newPwd) {
+                return $http({
+                    method: 'POST',
+                    url: config.basePath + '/resetpwd/update',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    "async": true,
+                    "crossDomain": true,
+                    params: {
+                        'originalPwd': originalPwd,
+                        'newPwd': newPwd
+                    }
+                })
+            }
+        }
+    }])
     .factory('prodService', ['$http', function($http) {
         return {
             getProdPicDetail: function(productID) {
@@ -147,10 +198,48 @@ angular.module('lqApp.services', [])
         return {
             pay: function(requestParams) {
                 // var data = JSON.stringify(requestParams);
-                
-                var url=config.basePath + '/checkout';
+
+                var url = config.basePath + '/checkout';
                 return $http.post(url, requestParams);
-               
+
+            }
+        }
+    }])
+    .factory("winprize", function($http) {
+        return {
+            pickUp: function(requestParams) {
+                var url = config.basePath + '/customer/claim-post';
+                //return $http.get(url,requestParams);
+                return $http({
+                    url: url,
+                    method: 'GET',
+                    params: requestParams
+                });
+            },
+            receive: function(winprizeId) {
+                var url = config.basePath + '/customer/claim-confirm?winprizeId=' + winprizeId;
+                return $http.get(url);
+
+            }
+        }
+    })
+    .factory('show', ['$http', function($http) {
+        return {
+            showRecord: function(requestParams) {
+                var url = config.basePath + '/commons/prizeshow-list';
+                return $http({
+                    url: url,
+                    method: 'GET',
+                    params: requestParams
+                });
+            },
+            myshow: function(requestParams) {
+                var url = config.basePath + '/customer/my-prizeshow';
+                return $http({
+                    url: url,
+                    method: 'GET',
+                    params: requestParams
+                });
             }
         }
     }])
