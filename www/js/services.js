@@ -202,6 +202,10 @@ angular.module('lqApp.services', [])
                 var url = config.basePath + '/checkout';
                 return $http.post(url, requestParams);
 
+            },
+            recharge: function(amout) {
+                var url = config.basePath + '/customer/recharge?amout=' + amout;
+                return $http.get(url);
             }
         }
     }])

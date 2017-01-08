@@ -2,7 +2,7 @@
  * Created by zhoupan on 2015/9/15.
  */
 angular.module('personal-controller', [])
-    .controller('PersonalCtrl', ['loginService', 'locals', 'personService', '$scope', '$ionicPopup', '$state', function(loginService, locals, personService, $scope, $ionicPopup, $state) {
+    .controller('PersonalCtrl', ['loginService', 'locals', 'personService', '$scope', '$ionicPopup', '$state', 'checkOut','$window',function(loginService, locals, personService, $scope, $ionicPopup, $state, checkOut,$window) {
         $scope.isPersistLogined = locals.get("isPersistLogined") || 'false';
         $scope.myInfo = locals.get("myInfo");
 
@@ -72,7 +72,40 @@ angular.module('personal-controller', [])
         //             }
         //         });
         // };
+        //充值对话框
+        $scope.rechargeAmount = {};
 
+        $scope.showPopup = function() {
+
+            // 一个精心制作的自定义弹窗
+            var myPopup = $ionicPopup.show({
+                template: '<input type="number" ng-model="rechargeAmount.amount">',
+                subTitle: '请输入充值金额￥',
+                scope: $scope,
+                buttons: [
+                    { text: '取消' }, {
+                        text: '<b>确认</b>',
+                        type: 'button-positive',
+                        onTap: function(e) {
+                            // debugger;
+                            if (!$scope.rechargeAmount.amount) {
+                                e.preventDefault();
+                            } else {
+                                // debugger;
+                                checkOut.recharge($scope.rechargeAmount.amount).success(function(data) {
+                                    if (data.header.code == '000'){
+                                        alert("充值成功");
+                                         $window.location.reload();
+                                    }
+                                    else
+                                        alert("充值失败，请稍后再试。。。");
+                                })
+                            }
+                        }
+                    },
+                ]
+            });
+        }
     }])
     //购买记录
     .controller('purchaseCtrl', ['$scope', '$window', 'personService', function($scope, $window, personService) {
@@ -86,7 +119,7 @@ angular.module('personal-controller', [])
 
         });
     }])
-    .controller('winRecordCtrl', ['$scope', '$state','$window','$timeout', '$ionicPopup', 'winprize', '$window', 'personService', function($scope, $state,$window,$timeout, $ionicPopup, winprize, $window, personService) {
+    .controller('winRecordCtrl', ['$scope', '$state', '$window', '$timeout', '$ionicPopup', 'winprize', '$window', 'personService', function($scope, $state, $window, $timeout, $ionicPopup, winprize, $window, personService) {
         $scope.logisticsMes = {
             receiverName: '',
             receiverAddress: '',
@@ -103,7 +136,7 @@ angular.module('personal-controller', [])
         });
         //领取奖品
         $scope.pickUp = function(winprizeId) {
-               $ionicPopup.show({
+                $ionicPopup.show({
                     templateUrl: 'templates/popupLogistics.html',
                     title: '收货地址',
                     scope: $scope,
@@ -115,7 +148,7 @@ angular.module('personal-controller', [])
                                 if (!$scope.logisticsMes) {
                                     e.preventDefault();
                                 } else {
-                                	//填写完物流信息并确认提交
+                                    //填写完物流信息并确认提交
                                     var reqParams = {
                                         "winprizeId": winprizeId,
                                         "receiverName": $scope.logisticsMes.receiverName,
@@ -130,7 +163,7 @@ angular.module('personal-controller', [])
                             }
                         },
                     ]
-                });                
+                });
 
             }
             //确认收货
@@ -144,7 +177,8 @@ angular.module('personal-controller', [])
         function messageAlert(winprizeId) {
 
         }
-        
+
+
     }])
     .controller('accountDetailCtrl', ['$scope', '$window', 'personService', function($scope, $window, personService) {
         $scope.balanceItems = {};
